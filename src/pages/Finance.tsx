@@ -14,16 +14,19 @@ export default function Finance() {
   const pending = invoices.filter((i) => i.status === 'pending').reduce((s, i) => s + i.amount, 0)
   const overdue = invoices.filter((i) => i.status === 'overdue').reduce((s, i) => s + i.amount, 0)
 
-  function onSubmit(e: FormEvent) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if (!clientId || !projectId) return
+    const fd = new FormData(e.currentTarget)
+    const nextClientId = String(fd.get('clientId') || clientId)
+    const nextProjectId = String(fd.get('projectId') || projectId)
+    if (!nextClientId || !nextProjectId) return
     addInvoice({
-      number,
-      clientId,
-      projectId,
-      amount: Number(amount) || 0,
-      status,
-      dueDate,
+      number: String(fd.get('number') || number),
+      clientId: nextClientId,
+      projectId: nextProjectId,
+      amount: Number(fd.get('amount') || amount) || 0,
+      status: String(fd.get('status') || status) as InvoiceStatus,
+      dueDate: String(fd.get('dueDate') || dueDate),
     })
     setNumber(`INV-${Math.floor(1100 + Math.random() * 80)}`)
   }
@@ -59,12 +62,12 @@ export default function Finance() {
       <section className="panel" style={{ marginBottom: '1rem' }}>
         <form className="form-inline" onSubmit={onSubmit}>
           <div className="field">
-            <label>رقم الفاتورة</label>
-            <input value={number} onChange={(e) => setNumber(e.target.value)} required />
+            <label htmlFor="inv-number">رقم الفاتورة</label>
+            <input id="inv-number" name="number" value={number} onChange={(e) => setNumber(e.target.value)} required />
           </div>
           <div className="field">
-            <label>العميل</label>
-            <select value={clientId} onChange={(e) => setClientId(e.target.value)}>
+            <label htmlFor="inv-client">العميل</label>
+            <select id="inv-client" name="clientId" value={clientId} onChange={(e) => setClientId(e.target.value)}>
               {clients.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.company}
@@ -73,8 +76,13 @@ export default function Finance() {
             </select>
           </div>
           <div className="field">
-            <label>المشروع</label>
-            <select value={projectId} onChange={(e) => setProjectId(e.target.value)}>
+            <label htmlFor="inv-project">المشروع</label>
+            <select
+              id="inv-project"
+              name="projectId"
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value)}
+            >
               {projects.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name}
@@ -83,20 +91,37 @@ export default function Finance() {
             </select>
           </div>
           <div className="field">
-            <label>المبلغ</label>
-            <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
+            <label htmlFor="inv-amount">المبلغ</label>
+            <input
+              id="inv-amount"
+              name="amount"
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
           </div>
           <div className="field">
-            <label>الحالة</label>
-            <select value={status} onChange={(e) => setStatus(e.target.value as InvoiceStatus)}>
+            <label htmlFor="inv-status">الحالة</label>
+            <select
+              id="inv-status"
+              name="status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value as InvoiceStatus)}
+            >
               <option value="paid">مدفوعة</option>
               <option value="pending">معلّقة</option>
               <option value="overdue">متأخرة</option>
             </select>
           </div>
           <div className="field">
-            <label>الاستحقاق</label>
-            <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+            <label htmlFor="inv-due">الاستحقاق</label>
+            <input
+              id="inv-due"
+              name="dueDate"
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+            />
           </div>
           <button className="btn btn-accent" type="submit">
             إضافة فاتورة

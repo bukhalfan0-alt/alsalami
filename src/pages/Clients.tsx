@@ -9,16 +9,18 @@ export default function Clients() {
   const [phone, setPhone] = useState('')
   const [city, setCity] = useState('دبي')
 
-  function onSubmit(e: FormEvent) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if (!name.trim() || !company.trim()) return
-    addClient({
-      name: name.trim(),
-      company: company.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      city: city.trim(),
-    })
+    const fd = new FormData(e.currentTarget)
+    const next = {
+      name: String(fd.get('name') || name).trim(),
+      company: String(fd.get('company') || company).trim(),
+      email: String(fd.get('email') || email).trim(),
+      phone: String(fd.get('phone') || phone).trim(),
+      city: String(fd.get('city') || city).trim(),
+    }
+    if (!next.name || !next.company) return
+    addClient(next)
     setName('')
     setCompany('')
     setEmail('')
@@ -37,24 +39,36 @@ export default function Clients() {
       <section className="panel" style={{ marginBottom: '1rem' }}>
         <form className="form-inline" onSubmit={onSubmit}>
           <div className="field">
-            <label>جهة الاتصال</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} required />
+            <label htmlFor="client-name">جهة الاتصال</label>
+            <input id="client-name" name="name" value={name} onChange={(e) => setName(e.target.value)} required />
           </div>
           <div className="field">
-            <label>الشركة</label>
-            <input value={company} onChange={(e) => setCompany(e.target.value)} required />
+            <label htmlFor="client-company">الشركة</label>
+            <input
+              id="client-company"
+              name="company"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              required
+            />
           </div>
           <div className="field">
-            <label>البريد</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <label htmlFor="client-email">البريد</label>
+            <input
+              id="client-email"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className="field">
-            <label>الهاتف</label>
-            <input value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <label htmlFor="client-phone">الهاتف</label>
+            <input id="client-phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
           </div>
           <div className="field">
-            <label>المدينة</label>
-            <input value={city} onChange={(e) => setCity(e.target.value)} />
+            <label htmlFor="client-city">المدينة</label>
+            <input id="client-city" name="city" value={city} onChange={(e) => setCity(e.target.value)} />
           </div>
           <button className="btn btn-accent" type="submit">
             إضافة عميل

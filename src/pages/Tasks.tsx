@@ -14,14 +14,19 @@ export default function Tasks() {
   const [priority, setPriority] = useState<'low' | 'med' | 'high'>('med')
   const [dueDate, setDueDate] = useState('2026-12-01')
 
-  function onSubmit(e: FormEvent) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if (!title.trim() || !projectId) return
+    const fd = new FormData(e.currentTarget)
+    const nextTitle = String(fd.get('title') || title).trim()
+    const nextProjectId = String(fd.get('projectId') || projectId)
+    const nextPriority = String(fd.get('priority') || priority) as 'low' | 'med' | 'high'
+    const nextDue = String(fd.get('dueDate') || dueDate)
+    if (!nextTitle || !nextProjectId) return
     addTask({
-      title: title.trim(),
-      projectId,
-      priority,
-      dueDate,
+      title: nextTitle,
+      projectId: nextProjectId,
+      priority: nextPriority,
+      dueDate: nextDue,
       status: 'todo',
     })
     setTitle('')
@@ -39,12 +44,17 @@ export default function Tasks() {
       <section className="panel" style={{ marginBottom: '1rem' }}>
         <form className="form-inline" onSubmit={onSubmit}>
           <div className="field">
-            <label>المهمة</label>
-            <input value={title} onChange={(e) => setTitle(e.target.value)} required />
+            <label htmlFor="task-title">المهمة</label>
+            <input id="task-title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
           </div>
           <div className="field">
-            <label>المشروع</label>
-            <select value={projectId} onChange={(e) => setProjectId(e.target.value)}>
+            <label htmlFor="task-project">المشروع</label>
+            <select
+              id="task-project"
+              name="projectId"
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value)}
+            >
               {projects.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name}
@@ -53,16 +63,27 @@ export default function Tasks() {
             </select>
           </div>
           <div className="field">
-            <label>الأولوية</label>
-            <select value={priority} onChange={(e) => setPriority(e.target.value as 'low' | 'med' | 'high')}>
+            <label htmlFor="task-priority">الأولوية</label>
+            <select
+              id="task-priority"
+              name="priority"
+              value={priority}
+              onChange={(e) => setPriority(e.target.value as 'low' | 'med' | 'high')}
+            >
               <option value="high">عالي</option>
               <option value="med">متوسط</option>
               <option value="low">منخفض</option>
             </select>
           </div>
           <div className="field">
-            <label>الاستحقاق</label>
-            <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+            <label htmlFor="task-due">الاستحقاق</label>
+            <input
+              id="task-due"
+              name="dueDate"
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+            />
           </div>
           <button className="btn btn-accent" type="submit">
             إضافة مهمة

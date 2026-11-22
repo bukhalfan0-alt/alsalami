@@ -9,16 +9,22 @@ export default function Projects() {
   const [dueDate, setDueDate] = useState('2026-12-31')
   const [status, setStatus] = useState<ProjectStatus>('active')
 
-  function onSubmit(e: FormEvent) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if (!name.trim() || !clientId) return
+    const fd = new FormData(e.currentTarget)
+    const nextName = String(fd.get('name') || name).trim()
+    const nextClientId = String(fd.get('clientId') || clientId)
+    const nextBudget = Number(fd.get('budget') || budget) || 0
+    const nextDue = String(fd.get('dueDate') || dueDate)
+    const nextStatus = String(fd.get('status') || status) as ProjectStatus
+    if (!nextName || !nextClientId) return
     addProject({
-      name: name.trim(),
-      clientId,
-      budget: Number(budget) || 0,
-      dueDate,
-      status,
-      progress: status === 'done' ? 100 : 10,
+      name: nextName,
+      clientId: nextClientId,
+      budget: nextBudget,
+      dueDate: nextDue,
+      status: nextStatus,
+      progress: nextStatus === 'done' ? 100 : 10,
     })
     setName('')
   }
@@ -35,12 +41,24 @@ export default function Projects() {
       <section className="panel" style={{ marginBottom: '1rem' }}>
         <form className="form-inline" onSubmit={onSubmit}>
           <div className="field">
-            <label>اسم المشروع</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="مشروع جديد" required />
+            <label htmlFor="project-name">اسم المشروع</label>
+            <input
+              id="project-name"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="مشروع جديد"
+              required
+            />
           </div>
           <div className="field">
-            <label>العميل</label>
-            <select value={clientId} onChange={(e) => setClientId(e.target.value)}>
+            <label htmlFor="project-client">العميل</label>
+            <select
+              id="project-client"
+              name="clientId"
+              value={clientId}
+              onChange={(e) => setClientId(e.target.value)}
+            >
               {clients.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.company}
@@ -49,16 +67,33 @@ export default function Projects() {
             </select>
           </div>
           <div className="field">
-            <label>الميزانية</label>
-            <input type="number" value={budget} onChange={(e) => setBudget(e.target.value)} />
+            <label htmlFor="project-budget">الميزانية</label>
+            <input
+              id="project-budget"
+              name="budget"
+              type="number"
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+            />
           </div>
           <div className="field">
-            <label>التسليم</label>
-            <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+            <label htmlFor="project-due">التسليم</label>
+            <input
+              id="project-due"
+              name="dueDate"
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+            />
           </div>
           <div className="field">
-            <label>الحالة</label>
-            <select value={status} onChange={(e) => setStatus(e.target.value as ProjectStatus)}>
+            <label htmlFor="project-status">الحالة</label>
+            <select
+              id="project-status"
+              name="status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value as ProjectStatus)}
+            >
               <option value="active">نشط</option>
               <option value="paused">متوقف</option>
               <option value="done">مكتمل</option>
