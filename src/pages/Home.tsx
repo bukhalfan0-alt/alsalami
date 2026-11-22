@@ -9,7 +9,7 @@ import {
 import './home.css'
 
 const HERO =
-  'https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=2400&q=80'
+  'https://images.unsplash.com/photo-1451337516015-6b6e9a44a8a3?auto=format&fit=crop&w=2400&q=80'
 
 export default function Home() {
   return (
