@@ -1,0 +1,145 @@
+.home {
+  display: grid;
+  gap: 2.25rem;
+}
+
+.hero {
+  position: relative;
+  min-height: min(78vh, 720px);
+  border-radius: 28px;
+  overflow: hidden;
+  color: #fff6e7;
+  display: grid;
+  align-items: end;
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: duneShift 14s var(--ease) alternate both;
+}
+
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(21, 23, 44, 0.25) 0%, rgba(21, 23, 44, 0.55) 45%, rgba(21, 23, 44, 0.92) 100%),
+    linear-gradient(90deg, rgba(43, 104, 76, 0.28), transparent 55%);
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  padding: 2.5rem 1.5rem;
+  max-width: 40rem;
+}
+
+.hero-copy .place {
+  color: rgba(255, 246, 231, 0.75);
+  margin-bottom: 0.55rem;
+}
+
+.hero-copy h1 {
+  font-size: clamp(3rem, 9vw, 5.2rem);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+  animation: softPulse 4s ease-in-out infinite;
+}
+
+.hero-copy .tag {
+  font-size: 1.15rem;
+  margin-bottom: 0.85rem;
+  color: #f0b652;
+  font-weight: 600;
+}
+
+.hero-copy .lead {
+  line-height: 1.8;
+  color: rgba(255, 246, 231, 0.86);
+  margin-bottom: 1.35rem;
+}
+
+.hero-copy .cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.btn-ghost.light {
+  border-color: rgba(255, 246, 231, 0.35);
+  color: #fff6e7;
+}
+
+.section-head {
+  margin-bottom: 1rem;
+  max-width: 36rem;
+}
+
+.section-head.row {
+  max-width: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+}
+
+.section-head h2 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  margin-bottom: 0.35rem;
+}
+
+.section-head p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.hub-card {
+  transition: transform 0.25s var(--ease), border-color 0.2s ease;
+}
+
+.hub-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(43, 104, 76, 0.35);
+}
+
+.hub-card h3 {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  margin: 0 0 0.4rem;
+}
+
+.hub-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.about h2 {
+  font-size: 1.7rem;
+  margin-bottom: 0.65rem;
+}
+
+.about p {
+  color: var(--muted);
+  line-height: 1.85;
+  white-space: pre-line;
+}
+
+@media (max-width: 900px) {
+  .hub-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-head.row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
