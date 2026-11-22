@@ -1,0 +1,83 @@
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+}
+
+.login-visual {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  color: #fff;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.login-orb {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  right: -80px;
+  top: -60px;
+  background: radial-gradient(circle at 30% 30%, rgba(45, 155, 138, 0.55), transparent 65%);
+  animation: pulseSoft 5s ease-in-out infinite;
+}
+
+.login-visual p {
+  position: relative;
+  max-width: 22rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.15rem;
+}
+
+.login-panel {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 460px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.login-panel .back {
+  color: var(--muted);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.login-panel h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.login-panel .sub {
+  color: var(--muted);
+  margin-bottom: 1.75rem;
+  line-height: 1.7;
+}
+
+.login-panel form {
+  display: grid;
+  gap: 1rem;
+}
+
+.login-panel .btn {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .login-page {
+    grid-template-columns: 1fr;
+  }
+
+  .login-visual {
+    min-height: 220px;
+  }
+}
